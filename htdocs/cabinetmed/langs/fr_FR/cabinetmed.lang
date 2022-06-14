@@ -183,3 +183,13 @@ AddPatient=Créer patient
 Revenues=Revenus
 PatientsAndConsultations=Patients | Consultations
 ToCreateAConsultationGoOnPatientRecord=Pour enregistrer une nouvelle consultation, recherchez et ouvrez d’abord le dossier patient, puis passez à l’onglet 'Consultations', puis cliquez sur le bouton 'Créer une consultation'.
+
+PrescriptionPDFName = Ordonnance
+PrescriptionPDFDescription = Modèle d'ordonnance PDF complet
+PrescriptionPDFFileName = Ordonnance_%s_%s
+PrescriptionTitle = Cabinet de téléconsultation<br>Et assistance aux voyageurs
+rpps = N°RPPS
+nam = N°AM
+BirthDate = Né(e) le
+The = le
+PrescriptionPDF2 = Ordo2
