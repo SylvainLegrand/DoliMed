@@ -38,6 +38,7 @@ if (! $res && file_exists("../../../main.inc.php")) $res=@include "../../../main
 if (! $res) die("Include of main fails");
 
 require_once DOL_DOCUMENT_ROOT."/core/class/html.formother.class.php";
+require_once DOL_DOCUMENT_ROOT."/core/class/doleditor.class.php";	// InfraS add
 require_once DOL_DOCUMENT_ROOT."/core/lib/company.lib.php";
 require_once DOL_DOCUMENT_ROOT."/compta/bank/class/account.class.php";
 require_once DOL_DOCUMENT_ROOT."/comm/action/class/actioncomm.class.php";
@@ -212,15 +213,15 @@ if (empty($reshook)) {
 			$object->typepriseencharge=GETPOST("typepriseencharge");
 			$object->motifconsprinc=GETPOST("motifconsprinc");
 			$object->diaglesprinc=GETPOST("diaglesprinc");
-			$object->motifconssec=GETPOST("motifconssec");
-			$object->diaglessec=GETPOST("diaglessec");
-			$object->hdm=trim(GETPOST("hdm"));
-			$object->examenclinique=trim(GETPOST("examenclinique"));
-			$object->examenprescrit=trim(GETPOST("examenprescrit"));
-			$object->traitementprescrit=trim(GETPOST("traitementprescrit"));
-			$object->comment=trim(GETPOST("comment"));
+			$object->motifconssec=GETPOST("motifconssec", 'restricthtml');	// InfraS change
+			$object->diaglessec=GETPOST("diaglessec", 'restricthtml');	// InfraS change
+			$object->hdm=trim(GETPOST("hdm", 'restricthtml'));	// InfraS change
+			$object->examenclinique=trim(GETPOST("examenclinique", 'restricthtml'));	// InfraS change
+			$object->examenprescrit=trim(GETPOST("examenprescrit", 'restricthtml'));	// InfraS change
+			$object->traitementprescrit=trim(GETPOST("traitementprescrit", 'restricthtml'));	// InfraS change
+			$object->comment=trim(GETPOST("comment", 'restricthtml'));	// InfraS change
 			$object->typevisit=GETPOST("typevisit");
-			$object->infiltration=trim(GETPOST("infiltration"));
+			$object->infiltration=trim(GETPOST("infiltration", 'restricthtml'));	// InfraS change
 			$object->codageccam=trim(GETPOST("codageccam"));
 			$object->fk_agenda=GETPOST("fk_agenda");
 
@@ -868,9 +869,15 @@ if (! ($socid > 0)) {
 		print '</td></tr>';
 		print '<tr><td>'.$langs->trans("MotifSecondaires").':';
 		print '</td><td>';
-		print '<textarea class="flat centpercent" name="motifconssec" id="motifconssec" rows="'.ROWS_3.'">';
-		print $object->motifconssec;
-		print '</textarea>';
+		if (empty($conf->global->PDF_ALLOW_HTML_FOR_FREE_TEXT)) {	// InfraS add
+			print '<textarea class="flat centpercent" name="motifconssec" id="motifconssec" rows="'.ROWS_3.'">';	// InfraS change begin
+			print $object->motifconssec;
+			print '</textarea>';	// InfraS change end
+		}	// InfraS add begin
+		else {
+			$doleditor	= new DolEditor('motifconssec', $object->motifconssec, '', 80, 'dolibarr_notes', 'In', false, true, true, ROWS_3, 0, 0);
+			print $doleditor->Create();
+		}	// InfraS add end
 		print '</td>';
 		print '</tr>';
 		print '</table>';
@@ -878,7 +885,13 @@ if (! ($socid > 0)) {
 		print '</div><div class="fichehalfright"><div class="ficheaddleft">';
 
 		print ''.$langs->trans("HistoireDeLaMaladie").'<br>';
-		print '<textarea name="hdm" id="hdm" class="flat centpercent" rows="'.ROWS_5.'">'.$object->hdm.'</textarea>';
+		if (empty($conf->global->PDF_ALLOW_HTML_FOR_FREE_TEXT)) {	// InfraS add
+			print '<textarea name="hdm" id="hdm" class="flat centpercent" rows="'.ROWS_5.'">'.$object->hdm.'</textarea>';	// InfraS change
+		}	// InfraS add begin
+		else {
+			$doleditor	= new DolEditor('hdm', $object->hdm, '', 80, 'dolibarr_notes', 'In', false, true, true, ROWS_5, 0, 0);
+			print $doleditor->Create();
+		}	// InfraS add end
 
 		print '</div></div></div>';
 
@@ -901,9 +914,15 @@ if (! ($socid > 0)) {
 		print '</td></tr>';
 		print '<tr><td>'.$langs->trans("DiagLesSecondaires").':';
 		print '</td><td>';
-		print '<textarea class="flat centpercent" name="diaglessec" id="diaglessec" rows="'.ROWS_3.'">';
-		print $object->diaglessec;
-		print '</textarea>';
+		if (empty($conf->global->PDF_ALLOW_HTML_FOR_FREE_TEXT)) {	// InfraS add
+			print '<textarea class="flat centpercent" name="diaglessec" id="diaglessec" rows="'.ROWS_3.'">';	// InfraS change begin
+			print $object->diaglessec;
+			print '</textarea>';	// InfraS change end
+		}	// InfraS add begin
+		else {
+			$doleditor	= new DolEditor('diaglessec', $object->diaglessec, '', 80, 'dolibarr_notes', 'In', false, true, true, ROWS_3, 0, 0);
+			print $doleditor->Create();
+		}	// InfraS add end
 		print '</td>';
 		print '</tr>';
 		print '</table>';
@@ -911,7 +930,13 @@ if (! ($socid > 0)) {
 		print '</div><div class="fichehalfright"><div class="ficheaddleft">';
 
 		print ''.$langs->trans("ExamensCliniques").'<br>';
-		print '<textarea name="examenclinique" id="examenclinique" class="flat centpercent" rows="'.ROWS_6.'">'.$object->examenclinique.'</textarea>';
+		if (empty($conf->global->PDF_ALLOW_HTML_FOR_FREE_TEXT)) {	// InfraS add
+			print '<textarea name="examenclinique" id="examenclinique" class="flat centpercent" rows="'.ROWS_6.'">'.$object->examenclinique.'</textarea>';	// InfraS change
+		}	// InfraS add begin
+		else {
+			$doleditor	= new DolEditor('examenclinique', $object->examenclinique, '', 80, 'dolibarr_notes', 'In', false, true, true, ROWS_6, 0, 0);
+			print $doleditor->Create();
+		}	// InfraS add end
 
 		print '</div></div></div>';
 
@@ -933,15 +958,27 @@ if (! ($socid > 0)) {
 		print '</td></tr>';
 		print '<tr><td>';
 		print '</td><td>';
-		print '<textarea class="flat centpercent" name="examenprescrit" id="examenprescrit" rows="'.ROWS_4.'">';
-		print $object->examenprescrit;
-		print '</textarea>';
+		if (empty($conf->global->PDF_ALLOW_HTML_FOR_FREE_TEXT)) {	// InfraS add
+			print '<textarea class="flat centpercent" name="examenprescrit" id="examenprescrit" rows="'.ROWS_4.'">';	// InfraS change begin
+			print $object->examenprescrit;
+			print '</textarea>';	// InfraS change end
+		}	// InfraS add begin
+		else {
+			$doleditor	= new DolEditor('examenprescrit', $object->examenprescrit, '', 80, 'dolibarr_notes', 'In', false, true, true, ROWS_4, 0, 0);
+			print $doleditor->Create();
+		}	// InfraS add end
 		print '</td>';
 		print '</tr>';
 
 		print '<tr><td class="tdtop"><br>'.$langs->trans("Commentaires").':';
 		print '</td><td><br>';
-		print '<textarea name="comment" id="comment" class="flat centpercent" rows="'.($nboflines-1).'">'.$object->comment.'</textarea>';
+		if (empty($conf->global->PDF_ALLOW_HTML_FOR_FREE_TEXT)) {	// InfraS add
+			print '<textarea name="comment" id="comment" class="flat centpercent" rows="'.($nboflines-1).'">'.$object->comment.'</textarea>';	// InfraS change
+		}	// InfraS add begin
+		else {
+			$doleditor	= new DolEditor('comment', $object->comment, '', 80, 'dolibarr_notes', 'In', false, true, true, $nboflines - 1, 0, 0);
+			print $doleditor->Create();
+		}	// InfraS add end
 		print '</td></tr>';
 
 		// Other attributes
@@ -958,9 +995,21 @@ if (! ($socid > 0)) {
 		print '</div><div class="fichehalfright"><div class="ficheaddleft">';
 
 		print $langs->trans("TraitementsPrescrits").'<br>';
-		print '<textarea name="traitementprescrit" class="flat centpercent" rows="'.($nboflines+1).'">'.$object->traitementprescrit.'</textarea><br>';
+		if (empty($conf->global->PDF_ALLOW_HTML_FOR_FREE_TEXT)) {	// InfraS add
+			print '<textarea name="traitementprescrit" class="flat centpercent" rows="'.($nboflines+1).'">'.$object->traitementprescrit.'</textarea><br>';	// InfraS change
+		}	// InfraS add begin
+		else {
+			$doleditor	= new DolEditor('traitementprescrit', $object->traitementprescrit, '', 80, 'dolibarr_notes', 'In', false, true, true, $nboflines + 1, 0, 0);
+			print $doleditor->Create();
+		}	// InfraS add end
 		print $langs->trans("Infiltrations").'<br>';
-		print '<textarea name="infiltration" id="infiltration" class="flat centpercent" rows="'.ROWS_2.'">'.$object->infiltration.'</textarea><br>';
+		if (empty($conf->global->PDF_ALLOW_HTML_FOR_FREE_TEXT)) {	// InfraS add
+			print '<textarea name="infiltration" id="infiltration" class="flat centpercent" rows="'.ROWS_2.'">'.$object->infiltration.'</textarea><br>';	// InfraS change
+		}	// InfraS add begin
+		else {
+			$doleditor	= new DolEditor('infiltration', $object->infiltration, '', 80, 'dolibarr_notes', 'In', false, true, true, ROWS_2, 0, 0);
+			print $doleditor->Create();
+		}	// InfraS add end
 
 		print '<br><b>'.$langs->trans("TypeVisite").'</b>: &nbsp; &nbsp; &nbsp; ';
 		print '<input type="radio" class="flat" name="typevisit" value="CS" id="cs"'.($object->typevisit=='CS'?' checked="checked"':'').'> <label for="cs">'.$langs->trans("CS").'</label>';
